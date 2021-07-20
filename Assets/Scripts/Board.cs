@@ -55,14 +55,15 @@ public class Board : MonoBehaviour
                     yPos += yOffSet / 2f;
                 }
 
-                //Background Hexagonlar
-                Vector2 tempPosition = new Vector2((float)(i * xOffSet), (float)(yPos))+(Vector2)transform.position; // nereden başlayacağını Board Objesinin yeri ile belirliyoruz.
-                GameObject hexagons = Instantiate(hexagonPrefab, tempPosition, Quaternion.identity) as GameObject;
-                hexagons.transform.parent = this.transform;
-                hexagons.name = "(" + i + "," + j + ")";
+                // //Background Hexagonlar
+                // Vector2 tempPosition = new Vector2((float)(i * xOffSet), (float)(yPos))+(Vector2)transform.position; // nereden başlayacağını Board Objesinin yeri ile belirliyoruz.
+                // GameObject hexagons = Instantiate(hexagonPrefab, tempPosition, Quaternion.identity) as GameObject;
+                // hexagons.transform.parent = this.transform;
+                // hexagons.name = "(" + i + "," + j + ")";
 
 
                 //Renkli Hexagonlar
+                Vector2 tempPosition = new Vector2((float)(i * xOffSet), (float)(yPos))+(Vector2)transform.position; // nereden başlayacağını Board Objesinin yeri ile belirliyoruz.
                 int hexagonToUse = Random.Range(0, colorfulHexagons.Length);
                 GameObject colorfulHexagon = Instantiate(colorfulHexagons[hexagonToUse], tempPosition, Quaternion.identity);
                 colorfulHexagon.transform.parent = this.transform;
