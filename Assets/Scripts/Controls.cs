@@ -86,7 +86,10 @@ public class Controls : MonoBehaviour
             {
                 if (sortedDistances[i] == Vector2.Distance(position, transforms[j].position))
                 {
-                    nearest3Hexagons[k] = transforms[j];
+                    if (k <= 3)
+                    {
+                        nearest3Hexagons[k] = transforms[j];
+                    }
                     k++;
                 }
             }
@@ -100,7 +103,7 @@ public class Controls : MonoBehaviour
     {
         foreach (var t in transforms)
         {
-            t.GetComponent<Outline>().enabled = true;
+            SetActiveAllChildren(t,true);
         }
     }
 
@@ -110,7 +113,7 @@ public class Controls : MonoBehaviour
         {
             if (t != null)
             {
-                t.GetComponent<Outline>().enabled = false; 
+                SetActiveAllChildren(t,false);
             }
         }
     }
@@ -148,35 +151,39 @@ public class Controls : MonoBehaviour
         Vector2 pos1, pos2, pos3;
         Transform first, second, third;
 
-        /* Taking each position to local variables to prevent data loss during rotation */
-        first = _selected3Hexagons[0];
-        second = _selected3Hexagons[1];
-        third = _selected3Hexagons[2];
+        if (_selected3Hexagons[0] != null)
+        {
+            first = _selected3Hexagons[0];
+            second = _selected3Hexagons[1];
+            third = _selected3Hexagons[2];
+
+            /* Taking each position to local variables to prevent data loss during rotation */
 
 
+            x1 = first.GetComponent<Hexagon>().x;
+            x2 = second.GetComponent<Hexagon>().x;
+            x3 = third.GetComponent<Hexagon>().x;
 
-        x1 = first.GetComponent<Hexagon>().x;
-        x2 = second.GetComponent<Hexagon>().x;
-        x3 = third.GetComponent<Hexagon>().x;
+            y1 = first.GetComponent<Hexagon>().y;
+            y2 = second.GetComponent<Hexagon>().y;
+            y3 = third.GetComponent<Hexagon>().y;
 
-        y1 = first.GetComponent<Hexagon>().y;
-        y2 = second.GetComponent<Hexagon>().y;
-        y3 = third.GetComponent<Hexagon>().y;
-
-        pos1 = first.transform.position;
-        pos2 = second.transform.position;
-        pos3 = third.transform.position;
+            pos1 = first.transform.position;
+            pos2 = second.transform.position;
+            pos3 = third.transform.position;
 
 
-        /* If rotation is clokwise, rotate to the position of element on next index, else rotate to previous index */
-        first.GetComponent<Hexagon>().Rotate(x2, y2, pos2);
-        //gameGrid[x2][y2] = first;
+            /* If rotation is clokwise, rotate to the position of element on next index, else rotate to previous index */
+            first.GetComponent<Hexagon>().Rotate(x2, y2, pos2);
+            //gameGrid[x2][y2] = first;
 
-        second.GetComponent<Hexagon>().Rotate(x3, y3, pos3);
-        //gameGrid[x3][y3] = second;
+            second.GetComponent<Hexagon>().Rotate(x3, y3, pos3);
+            //gameGrid[x3][y3] = second;
 
-        third.GetComponent<Hexagon>().Rotate(x1, y1, pos1);
-        //gameGrid[x1][y1] = third;
+            third.GetComponent<Hexagon>().Rotate(x1, y1, pos1);
+            //gameGrid[x1][y1] = third;
+
+        }
     }
 
     private Vector3 FindCenterPoint(GameObject[] gos)
@@ -197,9 +204,17 @@ public class Controls : MonoBehaviour
         {
             if (_selected3Hexagons[i] != null)
             {
-                _selected3Hexagons[i].GetComponent<Outline>().enabled = false;
+                SetActiveAllChildren(_selected3Hexagons[i],false);
                 _selected3Hexagons[i] = null;
             }
+        }
+    }
+
+    private void SetActiveAllChildren(Transform t,bool value)
+    {
+        for (int j = 0; j < t.childCount; j++)
+        {
+            t.GetChild(j).gameObject.SetActive(value);
         }
     }
 }
