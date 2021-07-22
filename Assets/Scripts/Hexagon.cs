@@ -173,7 +173,11 @@ public class Hexagon : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, 1f);
             if (hit.collider != null)
             {
-                neighbours[i] = hit.collider.GetComponent<Hexagon>();
+                if (Mathf.Abs(hit.collider.GetComponent<Hexagon>().y - y) <= 1 ||
+                    Mathf.Abs(hit.collider.GetComponent<Hexagon>().x - x) <= 1)
+                {
+                    neighbours[i] = hit.collider.GetComponent<Hexagon>();
+                }
             }
             else
             {
