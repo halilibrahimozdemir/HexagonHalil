@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5075177721963262533}
   - component: {fileID: 5121095383072135948}
-  - component: {fileID: -6754808361506307537}
   - component: {fileID: 1726833786195278174}
   - component: {fileID: 6779512616148307505}
   - component: {fileID: 8550680583500654014}
+  - component: {fileID: 4161882277294372849}
   m_Layer: 0
   m_Name: RedHexagon
   m_TagString: Untagged
@@ -86,22 +86,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &-6754808361506307537
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3091863949467898884}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.85333335
 --- !u!114 &1726833786195278174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,7 +119,15 @@ MonoBehaviour:
   lerp: 0
   lerpPosition: {x: 0, y: 0}
   rotateLerpSpeed: 5
+  downLerpSpeed: 20
   rotateThreshold: 0.01
+  color: {r: 0, g: 0, b: 0, a: 0}
+  board: {fileID: 0}
+  x: 0
+  y: 0
+  movingDown: 0
+  movingTop: 0
+  movingTopDestination: {x: 0, y: 0}
 --- !u!50 &8550680583500654014
 Rigidbody2D:
   serializedVersion: 4
@@ -157,3 +149,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!58 &4161882277294372849
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3091863949467898884}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.85333335
