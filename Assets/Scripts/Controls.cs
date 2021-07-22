@@ -17,6 +17,8 @@ public class Controls : MonoBehaviour
     private Vector2 _touchStartPosition;
     private Vector2 _touchFinishPosition;
 
+    public GameObject selectedHexagonsGroup;
+
     private void Start()
     {
         _selected3Hexagons = null;
@@ -175,5 +177,16 @@ public class Controls : MonoBehaviour
 
         third.GetComponent<Hexagon>().Rotate(x1,y1,pos1);
         //gameGrid[x1][y1] = third;
+    }
+
+    private Vector3 FindCenterPoint(GameObject[] gos){
+        if (gos.Length == 0)
+            return Vector3.zero;
+        if (gos.Length == 1)
+            return gos[0].transform.position;
+        var bounds = new Bounds(gos[0].transform.position, Vector3.zero);
+        for (var i = 1; i < gos.Length; i++)
+            bounds.Encapsulate(gos[i].transform.position); 
+        return bounds.center;
     }
 }

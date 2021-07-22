@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,5 +28,18 @@ public class Hexagon : MonoBehaviour
     public void Rotate(float newX, float newY, Vector2 newPos) {
         lerpPosition = newPos;
         lerp = true;
+    }
+
+    public void CheckNeigbours()
+    {
+        
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.GetComponent<Hexagon>())
+        {
+            
+        }
     }
 }

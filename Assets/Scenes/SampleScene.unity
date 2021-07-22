@@ -154,6 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 1
   mainCamera: {fileID: 519420031}
+  selectedHexagonsGroup: {fileID: 4329075373158245399, guid: 9c01480e47df4d542aac46eb24ff5690, type: 3}
 --- !u!4 &69245756
 Transform:
   m_ObjectHideFlags: 0
