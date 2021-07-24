@@ -48,8 +48,7 @@ public class Board : MonoBehaviour
 
     private void Update()
     {
-        CheckConstructing();
-        for (int i = 0; i < width; i++)
+        for (int i = 0; i < width; i++) //top fill
         {
             if (hexagons[i, height - 1] == null)
             {
@@ -63,6 +62,11 @@ public class Board : MonoBehaviour
                 newHex.GetComponent<Hexagon>().movingTop = true;
             }
         }
+    }
+
+    private void FixedUpdate()
+    {
+        CheckConstructing();
     }
 
     private void CheckConstructing()
@@ -82,7 +86,6 @@ public class Board : MonoBehaviour
                 }
             }
         }
-
         constructing = false;
     }
 

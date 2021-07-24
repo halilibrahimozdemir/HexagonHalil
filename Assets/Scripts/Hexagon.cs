@@ -51,12 +51,7 @@ public class Hexagon : MonoBehaviour
                 board.rotating = false;
             }
         }
-
-        if (!board.rotating && !board.constructing)
-        {
-            FindNeighbours();
-            CheckNeigbours();
-        }
+        
         else
         {
             for (int i = 0; i < 6; i++)
@@ -84,6 +79,16 @@ public class Hexagon : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        // if (!board.rotating && !board.constructing)
+        // {
+        //     FindNeighbours();
+        //     CheckNeighbours();
+        // }
+        FindNeighbours();
+    }
+
 
     /* Function to save rotate changes */
     public void Rotate(int newX, int newY, Vector2 newPos)
@@ -104,10 +109,10 @@ public class Hexagon : MonoBehaviour
         if (Vector3.Distance(hex.transform.position, destination) < rotateThreshold)
         {
             hex.transform.position = destination;
-            movingDown = false;
             board.hexagons[x, y] = null;
             board.hexagons[x, y - 1] = gameObject;
             y -= 1;
+            movingDown = false;
         }
     }
 
@@ -125,7 +130,7 @@ public class Hexagon : MonoBehaviour
         }
     }
 
-    public void CheckNeigbours()
+    public void CheckNeighbours()
     {
         for (int i = 0; i < 5; i++)
         {
