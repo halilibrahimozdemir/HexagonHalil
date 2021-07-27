@@ -12,7 +12,6 @@ public class Hexagon : MonoBehaviour
     public float downLerpSpeed = 20f;
     public float rotateThreshold = 0.01f;
     public Color color;
-    public Board board;
     public int x;
     public int y;
     public Hexagon[] neighbours;
@@ -31,14 +30,13 @@ public class Hexagon : MonoBehaviour
     {
         neighbours = new Hexagon[6];
         color = GetComponent<SpriteRenderer>().color;
-        board = FindObjectOfType<Board>();
     }
 
     void Update()
     {
         if (lerp)
         {
-            board.rotating = true;
+            Board.MyInstance.rotating = true;
             float newX = Mathf.Lerp(transform.position.x, lerpPosition.x, Time.deltaTime * rotateLerpSpeed);
             float newY = Mathf.Lerp(transform.position.y, lerpPosition.y, Time.deltaTime * rotateLerpSpeed);
             transform.position = new Vector2(newX, newY);
@@ -48,21 +46,30 @@ public class Hexagon : MonoBehaviour
             {
                 transform.position = lerpPosition;
                 lerp = false;
-                board.rotating = false;
+                Board.MyInstance.rotating = false;
             }
         }
         
-        else
-        {
-            for (int i = 0; i < 6; i++)
-            {
-                neighbours[i] = null;
-            }
-        }
+        // else
+        // {
+        //     for (int i = 0; i < 6; i++)
+        //     {
+        //         neighbours[i] = null;
+        //     }
+        // }
+    }
 
+    private void FixedUpdate()
+    {
+        if (!Board.MyInstance.rotating && !Board.MyInstance.constructing)
+        {
+            FindNeighbours();
+            CheckNeighbours();
+        }
+        
         if (!movingTop && y > 0)
         {
-            if (board.hexagons[x, y - 1] == null)
+            if (Board.MyInstance.hexagons[x, y - 1] == null)
             {
                 movingDown = true;
             }
@@ -70,23 +77,13 @@ public class Hexagon : MonoBehaviour
 
         if (movingDown)
         {
-            MoveLerp(this, board.hexagonHolders[x, y - 1].transform.position);
+            MoveLerp(this, Board.MyInstance.hexagonHolders[x, y - 1].transform.position);
         }
 
         if (movingTop)
         {
             MoveToTop(this,movingTopDestination);
         }
-    }
-
-    private void FixedUpdate()
-    {
-        // if (!board.rotating && !board.constructing)
-        // {
-        //     FindNeighbours();
-        //     CheckNeighbours();
-        // }
-        FindNeighbours();
     }
 
 
@@ -109,8 +106,8 @@ public class Hexagon : MonoBehaviour
         if (Vector3.Distance(hex.transform.position, destination) < rotateThreshold)
         {
             hex.transform.position = destination;
-            board.hexagons[x, y] = null;
-            board.hexagons[x, y - 1] = gameObject;
+            Board.MyInstance.hexagons[x, y] = null;
+            Board.MyInstance.hexagons[x, y - 1] = gameObject;
             y -= 1;
             movingDown = false;
         }
@@ -141,17 +138,17 @@ public class Hexagon : MonoBehaviour
                     if (neighbours[i + 1].color == color)
                     {
                         Destroy(gameObject);
-                        board.hexagons[x, y] = null;
+                        Board.MyInstance.hexagons[x, y] = null;
                         Destroy(neighbours[i].gameObject);
-                        board.hexagons[neighbours[i].x, neighbours[i].y] = null;
+                        Board.MyInstance.hexagons[neighbours[i].x, neighbours[i].y] = null;
                         Destroy(neighbours[i + 1].gameObject);
-                        board.hexagons[neighbours[i + 1].x, neighbours[i + 1].y] = null;
+                        Board.MyInstance.hexagons[neighbours[i + 1].x, neighbours[i + 1].y] = null;
                     }
                 }
             }
         }
 
-        if (neighbours[5] != null && neighbours[0] != null)
+        /*if (neighbours[5] != null && neighbours[0] != null)  // unnecessary control
         {
             if (neighbours[5].color == color)
             {
@@ -165,7 +162,7 @@ public class Hexagon : MonoBehaviour
                     board.hexagons[neighbours[0].x, neighbours[0].y] = null;
                 }
             }
-        }
+        }*/ 
     }
 
     private void FindNeighbours()
@@ -189,7 +186,6 @@ public class Hexagon : MonoBehaviour
                 neighbours[i] = null;
             }
         }
-
         GetComponent<CircleCollider2D>().enabled = true;
     }
 }

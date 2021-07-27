@@ -17,15 +17,8 @@ public class Controls : MonoBehaviour
 
     private Vector2 _touchStartPosition;
     private Vector2 _touchFinishPosition;
-
-    public GameObject selectedHexagonsGroup;
-    public Board board;
+    
     public bool touching = false;
-
-    private void Start()
-    {
-        board = FindObjectOfType<Board>();
-    }
 
     void Update()
     {
@@ -37,21 +30,24 @@ public class Controls : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (!Board.MyInstance.rotating && !Board.MyInstance.constructing)
         {
-            touching = true;
-            Vector3 mouseWorldPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-            mouseWorldPosition.z = 0f;
-            _touchStartPosition = (Vector2) mouseWorldPosition;
-        }
+            if (Input.GetMouseButtonDown(0))
+            {
+                touching = true;
+                Vector3 mouseWorldPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+                mouseWorldPosition.z = 0f;
+                _touchStartPosition = (Vector2) mouseWorldPosition;
+            }
 
-        if (Input.GetMouseButtonUp(0))
-        {
-            touching = false;
-            Vector3 mouseWorldPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-            mouseWorldPosition.z = 0f;
-            _touchFinishPosition = (Vector2) mouseWorldPosition;
-            CheckRotation();
+            if (Input.GetMouseButtonUp(0))
+            {
+                touching = false;
+                Vector3 mouseWorldPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+                mouseWorldPosition.z = 0f;
+                _touchFinishPosition = (Vector2) mouseWorldPosition;
+                CheckRotation();
+            }
         }
     }
 
@@ -175,13 +171,13 @@ public class Controls : MonoBehaviour
 
             /* If rotation is clokwise, rotate to the position of element on next index, else rotate to previous index */
             first.GetComponent<Hexagon>().Rotate(x2, y2, pos2);
-            //gameGrid[x2][y2] = first;
+            Board.MyInstance.hexagons[x2,y2] = first.gameObject;
 
             second.GetComponent<Hexagon>().Rotate(x3, y3, pos3);
-            //gameGrid[x3][y3] = second;
+            Board.MyInstance.hexagons[x3,y3] = second.gameObject;
 
             third.GetComponent<Hexagon>().Rotate(x1, y1, pos1);
-            //gameGrid[x1][y1] = third;
+            Board.MyInstance.hexagons[x1,y1] = third.gameObject;
 
         }
     }

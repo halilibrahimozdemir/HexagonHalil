@@ -154,8 +154,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 1
   mainCamera: {fileID: 519420031}
-  selectedHexagonsGroup: {fileID: 4329075373158245399, guid: 9c01480e47df4d542aac46eb24ff5690, type: 3}
-  board: {fileID: 0}
   touching: 0
 --- !u!4 &69245756
 Transform:
@@ -287,14 +285,17 @@ MonoBehaviour:
   constructing: 0
   xOffSet: 1.05
   yOffSet: 1.21
-  width: 8
-  height: 8
+  width: 4
+  height: 4
   hexagonPrefab: {fileID: 8490577850238972366, guid: a9b10569a9262904ba82eedcc368e59b, type: 3}
   colorfulHexagons:
   - {fileID: 6949181676823140478, guid: 9813c2f3b21a33f4c820351cfcfe7e7b, type: 3}
   - {fileID: 3278695768242900667, guid: 8bffeb7d5c5a87744a619072b6f655fc, type: 3}
   - {fileID: 3091863949467898884, guid: ffbbb43f005fd4943bf225ed8b102c45, type: 3}
   - {fileID: 8490577850238972366, guid: ff0fedda3ae211b4694a91e0fa566a2d, type: 3}
+  - {fileID: 8490577850238972366, guid: 094495323f62a65448f72b52322873f2, type: 3}
+  _setupXOffset: 0
+  _setupYOffset: 0
 --- !u!4 &1675649543
 Transform:
   m_ObjectHideFlags: 0
@@ -303,7 +304,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1675649541}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2, y: -4, z: 0}
+  m_LocalPosition: {x: 0, y: -7.12, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
