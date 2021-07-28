@@ -46,6 +46,7 @@ public class Board : MonoBehaviour
     private float _setupXOffSet;
     private float _setupYOffSet;
 
+    public bool exploded = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -95,10 +96,6 @@ public class Board : MonoBehaviour
                 newHex.GetComponent<Hexagon>().movingTop = true;
             }
         }
-    }
-
-    private void FixedUpdate()
-    {
         CheckConstructing();
     }
 

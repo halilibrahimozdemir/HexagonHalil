@@ -285,8 +285,8 @@ MonoBehaviour:
   constructing: 0
   xOffSet: 1.05
   yOffSet: 1.21
-  width: 4
-  height: 4
+  width: 8
+  height: 9
   hexagonPrefab: {fileID: 8490577850238972366, guid: a9b10569a9262904ba82eedcc368e59b, type: 3}
   colorfulHexagons:
   - {fileID: 6949181676823140478, guid: 9813c2f3b21a33f4c820351cfcfe7e7b, type: 3}
@@ -294,8 +294,6 @@ MonoBehaviour:
   - {fileID: 3091863949467898884, guid: ffbbb43f005fd4943bf225ed8b102c45, type: 3}
   - {fileID: 8490577850238972366, guid: ff0fedda3ae211b4694a91e0fa566a2d, type: 3}
   - {fileID: 8490577850238972366, guid: 094495323f62a65448f72b52322873f2, type: 3}
-  _setupXOffset: 0
-  _setupYOffset: 0
 --- !u!4 &1675649543
 Transform:
   m_ObjectHideFlags: 0

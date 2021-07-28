@@ -57,10 +57,7 @@ public class Hexagon : MonoBehaviour
         //         neighbours[i] = null;
         //     }
         // }
-    }
-
-    private void FixedUpdate()
-    {
+        
         if (!Board.MyInstance.rotating && !Board.MyInstance.constructing)
         {
             FindNeighbours();
@@ -85,6 +82,7 @@ public class Hexagon : MonoBehaviour
             MoveToTop(this,movingTopDestination);
         }
     }
+    
 
 
     /* Function to save rotate changes */
@@ -143,6 +141,8 @@ public class Hexagon : MonoBehaviour
                         Board.MyInstance.hexagons[neighbours[i].x, neighbours[i].y] = null;
                         Destroy(neighbours[i + 1].gameObject);
                         Board.MyInstance.hexagons[neighbours[i + 1].x, neighbours[i + 1].y] = null;
+                        
+                        Board.MyInstance.exploded=true;
                     }
                 }
             }
