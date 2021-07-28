@@ -9,6 +9,7 @@ using Cursor = UnityEngine.Cursor;
 
 public class Controls : MonoBehaviour
 {
+    private static Controls instance;
     public float radius = 5f;
     [SerializeField] private Camera mainCamera;
 
@@ -19,7 +20,9 @@ public class Controls : MonoBehaviour
     private Vector2 _touchFinishPosition;
     
     public bool touching = false;
-
+    public bool rotationEnabled = false;
+    public int rotationCount = 0;
+    
     void Update()
     {
         for (int i = 0; i < 3; i++)
@@ -47,6 +50,17 @@ public class Controls : MonoBehaviour
                 mouseWorldPosition.z = 0f;
                 _touchFinishPosition = (Vector2) mouseWorldPosition;
                 CheckRotation();
+            }
+
+            if (rotationCount == 3)
+            {
+                rotationCount = 0;
+                rotationEnabled = false;
+            }
+            if (rotationEnabled)
+            {
+                Rotate();
+                rotationCount++;
             }
         }
     }
@@ -120,7 +134,7 @@ public class Controls : MonoBehaviour
         var distanceY = _touchFinishPosition.y - _touchStartPosition.y;
         if (Mathf.Abs(distanceX) > 0.2f || Mathf.Abs(distanceY) > 0.2f)
         {
-            Rotate();
+            rotationEnabled = true;
         }
         else
         {
@@ -141,7 +155,7 @@ public class Controls : MonoBehaviour
         }
     }
 
-    private void Rotate()
+    private void Rotate()   
     {
         int x1, x2, x3, y1, y2, y3;
         Vector2 pos1, pos2, pos3;
@@ -208,9 +222,12 @@ public class Controls : MonoBehaviour
 
     private void SetActiveAllChildren(Transform t,bool value)
     {
-        for (int j = 0; j < t.childCount; j++)
+        if (t != null)
         {
-            t.GetChild(j).gameObject.SetActive(value);
+            for (int j = 0; j < t.childCount; j++)
+            {
+                t.GetChild(j).gameObject.SetActive(value);
+            }
         }
     }
 }
