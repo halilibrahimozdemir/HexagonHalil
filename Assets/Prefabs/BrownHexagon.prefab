@@ -607,6 +607,9 @@ MonoBehaviour:
   movingDown: 0
   movingTop: 0
   movingTopDestination: {x: 0, y: 0}
+  amIBomb: 0
+  bombCount: 0
+  lastMoveCount: 0
 --- !u!50 &-6079062277201060034
 Rigidbody2D:
   serializedVersion: 4

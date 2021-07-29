@@ -72,11 +72,7 @@ public class Board : MonoBehaviour
         
         hexagons = new GameObject[width, height];
         hexagonHolders = new GameObject[width, height];
-        // Vector2 screenBounds = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
-        // _setupXOffset = -width/2f;
-        // if (_setupXOffset > screenBounds.x) _setupXOffset = -screenBounds.x;
-        // _setupYOffset = -height;
-        // if (_setupYOffset > screenBounds.y) _setupYOffset = -screenBounds.y;
+        
         Setup();
     }
 
@@ -94,6 +90,12 @@ public class Board : MonoBehaviour
                 hexagons[i, height-1] = newHex;
                 newHex.GetComponent<Hexagon>().movingTopDestination = hexagonHolders[i, height - 1].transform.position;
                 newHex.GetComponent<Hexagon>().movingTop = true;
+                if (GameManager.MyInstance.needBomb)
+                {
+                    newHex.GetComponent<Hexagon>().amIBomb = true;
+                    Debug.Log("bomba oluşturuldu");
+                    GameManager.MyInstance.needBomb = false;
+                }
             }
         }
         CheckConstructing();

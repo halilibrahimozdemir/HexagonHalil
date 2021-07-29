@@ -10,11 +10,23 @@ using Cursor = UnityEngine.Cursor;
 public class Controls : MonoBehaviour
 {
     private static Controls instance;
-    public float radius = 5f;
+    public static Controls MyInstance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<Controls>();
+            }
+
+            return instance;
+        }
+    }
+    public float radius = 8f;
     [SerializeField] private Camera mainCamera;
 
     private Transform[] _nearest3Hexagons = new Transform[3];
-    private Transform[] _selected3Hexagons = new Transform[3];
+    public Transform[] _selected3Hexagons = new Transform[3];
 
     private Vector2 _touchStartPosition;
     private Vector2 _touchFinishPosition;
@@ -94,13 +106,41 @@ public class Controls : MonoBehaviour
         {
             for (int j = 0; j < transforms.Count; j++)
             {
-                if (sortedDistances[i] == Vector2.Distance(position, transforms[j].position))
+                if (Math.Abs(sortedDistances[i] - Vector2.Distance(position, transforms[j].position)) < 0.001f)
                 {
-                    if (k <= 3)
+                    if (k == 2)
+                    {
+                        if (nearest3Hexagons[0].GetComponent<Hexagon>().y ==
+                            nearest3Hexagons[1].GetComponent<Hexagon>().y)
+                        {
+                            if (nearest3Hexagons[0].GetComponent<Hexagon>().y !=
+                                transforms[j].GetComponent<Hexagon>().y)
+                            {
+                                nearest3Hexagons[k] = transforms[j];
+                                k++;
+                            }
+                        }
+                        else if(nearest3Hexagons[0].GetComponent<Hexagon>().x ==
+                                nearest3Hexagons[1].GetComponent<Hexagon>().x)
+                        {
+                            if (nearest3Hexagons[0].GetComponent<Hexagon>().x !=
+                                transforms[j].GetComponent<Hexagon>().x)
+                            {
+                                nearest3Hexagons[k] = transforms[j];
+                                k++;
+                            }
+                        }
+                        else
+                        {
+                            nearest3Hexagons[k] = transforms[j];
+                            k++;  
+                        }
+                    }
+                    if (k <= 1)
                     {
                         nearest3Hexagons[k] = transforms[j];
+                        k++;
                     }
-                    k++;
                 }
             }
         }

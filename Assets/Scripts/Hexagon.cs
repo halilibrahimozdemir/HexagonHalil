@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
+using Random =UnityEngine.Random;
 
 public class Hexagon : MonoBehaviour
 {
@@ -25,15 +27,26 @@ public class Hexagon : MonoBehaviour
     public bool movingDown = false;
     public bool movingTop = false;
     public Vector2 movingTopDestination;
-
+    public bool amIBomb = false;
+    public int bombCount;
+    public int lastMoveCount;
+    public bool checkedOnce = false;
     private void Start()
     {
+        lastMoveCount = GameManager.MyInstance.moves;
         neighbours = new Hexagon[6];
         color = GetComponent<SpriteRenderer>().color;
     }
 
     void Update()
     {
+        if (amIBomb && !checkedOnce)
+        {
+            Debug.Log("bombayım ben");
+            GameManager.MyInstance.bombObj = this;
+            bombCount = Random.Range(7, 15);
+            checkedOnce = true;
+        }
         if (lerp)
         {
             Board.MyInstance.rotating = true;
@@ -49,14 +62,6 @@ public class Hexagon : MonoBehaviour
                 Board.MyInstance.rotating = false;
             }
         }
-        
-        // else
-        // {
-        //     for (int i = 0; i < 6; i++)
-        //     {
-        //         neighbours[i] = null;
-        //     }
-        // }
         
         if (!Board.MyInstance.rotating && !Board.MyInstance.constructing)
         {
@@ -80,6 +85,20 @@ public class Hexagon : MonoBehaviour
         if (movingTop)
         {
             MoveToTop(this,movingTopDestination);
+        }
+
+        if (amIBomb)
+        {
+            if (bombCount == 0)
+            {
+                GameManager.MyInstance.gameOver = true;
+            }
+            if (GameManager.MyInstance.moves > lastMoveCount)
+            {
+                bombCount--;
+            }
+            GameManager.MyInstance.bombText.text = bombCount.ToString();
+            lastMoveCount = GameManager.MyInstance.moves; 
         }
     }
     
@@ -122,6 +141,7 @@ public class Hexagon : MonoBehaviour
         {
             hex.transform.position = destination;
             movingTop = false;
+            GameManager.MyInstance.score += 5;
         }
     }
 
@@ -135,34 +155,34 @@ public class Hexagon : MonoBehaviour
                 {
                     if (neighbours[i + 1].color == color)
                     {
+                        for (int j = 0; j < 3; j++)
+                        {
+                            if (Controls.MyInstance._selected3Hexagons[0] != null)
+                            {
+                                if (neighbours[i] ==
+                                    Controls.MyInstance._selected3Hexagons[j].GetComponent<Hexagon>() ||
+                                    neighbours[i+1] == Controls.MyInstance._selected3Hexagons[j].GetComponent<Hexagon>() ||
+                                    this == Controls.MyInstance._selected3Hexagons[j].GetComponent<Hexagon>())
+                                {
+                                    if (GameManager.MyInstance.timeSinceLastMove>0.5f)
+                                    {
+                                        GameManager.MyInstance.moves++;
+                                        GameManager.MyInstance.timeSinceLastMove = 0f;
+                                    }
+                                } 
+                            }
+                        }
                         Destroy(gameObject);
                         Board.MyInstance.hexagons[x, y] = null;
                         Destroy(neighbours[i].gameObject);
                         Board.MyInstance.hexagons[neighbours[i].x, neighbours[i].y] = null;
                         Destroy(neighbours[i + 1].gameObject);
                         Board.MyInstance.hexagons[neighbours[i + 1].x, neighbours[i + 1].y] = null;
-                        
                         Board.MyInstance.exploded=true;
                     }
                 }
             }
         }
-
-        /*if (neighbours[5] != null && neighbours[0] != null)  // unnecessary control
-        {
-            if (neighbours[5].color == color)
-            {
-                if (neighbours[0].color == color)
-                {
-                    Destroy(gameObject);
-                    board.hexagons[x, y] = null;
-                    Destroy(neighbours[5].gameObject);
-                    board.hexagons[neighbours[5].x, neighbours[5].y] = null;
-                    Destroy(neighbours[0].gameObject);
-                    board.hexagons[neighbours[0].x, neighbours[0].y] = null;
-                }
-            }
-        }*/ 
     }
 
     private void FindNeighbours()
