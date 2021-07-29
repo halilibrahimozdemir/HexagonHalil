@@ -42,7 +42,6 @@ public class Hexagon : MonoBehaviour
     {
         if (amIBomb && !checkedOnce)
         {
-            Debug.Log("bombayım ben");
             GameManager.MyInstance.bombObj = this;
             bombCount = Random.Range(7, 15);
             checkedOnce = true;

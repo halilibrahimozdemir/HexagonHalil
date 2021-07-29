@@ -93,7 +93,6 @@ public class Board : MonoBehaviour
                 if (GameManager.MyInstance.needBomb)
                 {
                     newHex.GetComponent<Hexagon>().amIBomb = true;
-                    Debug.Log("bomba oluşturuldu");
                     GameManager.MyInstance.needBomb = false;
                 }
             }
