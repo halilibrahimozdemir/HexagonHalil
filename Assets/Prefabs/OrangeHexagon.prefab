@@ -573,7 +573,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: a9f2763793cf5a6458c6d23a272edb47, type: 2}
-  m_Color: {r: 1, g: 0.504717, b: 0.6484062, a: 1}
+  m_Color: {r: 1, g: 0.42660633, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -607,6 +607,10 @@ MonoBehaviour:
   movingDown: 0
   movingTop: 0
   movingTopDestination: {x: 0, y: 0}
+  amIBomb: 0
+  bombCount: 0
+  lastMoveCount: 0
+  checkedOnce: 0
 --- !u!50 &-5160508336899976480
 Rigidbody2D:
   serializedVersion: 4
